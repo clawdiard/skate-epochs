@@ -1,0 +1,218 @@
+[
+  {
+    "year": 1950,
+    "era": "Origins",
+    "title": "Sidewalk Surfing Is Born",
+    "description": "California surfers nail roller skate wheels to wooden planks to 'surf' the sidewalk when waves are flat. The first crude skateboards emerge in beach communities.",
+    "category": "culture",
+    "icon": "🏄"
+  },
+  {
+    "year": 1959,
+    "era": "Origins",
+    "title": "First Commercial Skateboards",
+    "description": "Roller Derby releases the first commercially produced skateboard. It's little more than a shaped plank with clay wheels, but it sparks a craze.",
+    "category": "industry",
+    "icon": "🛹"
+  },
+  {
+    "year": 1963,
+    "era": "Origins",
+    "title": "First Skateboard Competition",
+    "description": "The first known skateboard contest is held at Pier Avenue Junior School in Hermosa Beach, California. Makaha sponsors the event.",
+    "category": "competition",
+    "icon": "🏆"
+  },
+  {
+    "year": 1965,
+    "era": "Origins",
+    "title": "First Crash & Ban Wave",
+    "description": "After a surge of injuries, cities across the US begin banning skateboarding. The first boom goes bust almost overnight. Skateboarding goes underground.",
+    "category": "culture",
+    "icon": "🚫"
+  },
+  {
+    "year": 1972,
+    "era": "Urethane Revolution",
+    "title": "Frank Nasworthy Invents Urethane Wheels",
+    "description": "Frank Nasworthy adapts urethane roller skate wheels for skateboards, creating Cadillac Wheels. This single innovation transforms ride quality and revives the sport.",
+    "category": "technology",
+    "icon": "⚙️"
+  },
+  {
+    "year": 1975,
+    "era": "Urethane Revolution",
+    "title": "The Zephyr Team (Z-Boys) Emerge",
+    "description": "The Z-Boys — including Tony Alva, Jay Adams, and Stacy Peralta — revolutionize skateboarding with an aggressive, surf-inspired style born from the empty pools of drought-era Santa Monica.",
+    "category": "culture",
+    "icon": "🌊"
+  },
+  {
+    "year": 1976,
+    "era": "Pool & Vert",
+    "title": "First Skatepark Opens",
+    "description": "Skateboard City opens in Port Orange, Florida — one of the first purpose-built skateparks. Hundreds more follow across the US and beyond.",
+    "category": "infrastructure",
+    "icon": "🏟️"
+  },
+  {
+    "year": 1977,
+    "era": "Pool & Vert",
+    "title": "Alan Gelfand Invents the Ollie",
+    "description": "Alan 'Ollie' Gelfand invents the no-hands aerial on vert. The ollie will become the foundational trick of all modern skateboarding.",
+    "category": "tricks",
+    "icon": "🚀"
+  },
+  {
+    "year": 1978,
+    "era": "Pool & Vert",
+    "title": "Thrasher Magazine Founded",
+    "description": "Thrasher launches, becoming the voice of hardcore skate culture. Its DIY punk ethos defines an entire generation of skaters.",
+    "category": "media",
+    "icon": "📰"
+  },
+  {
+    "year": 1981,
+    "era": "Pool & Vert",
+    "title": "Second Crash",
+    "description": "Insurance costs shut down nearly every skatepark in America. Skateboarding's second bust drives riders back to the streets and backyard ramps.",
+    "category": "culture",
+    "icon": "📉"
+  },
+  {
+    "year": 1983,
+    "era": "Street Revolution",
+    "title": "Bones Brigade Formed",
+    "description": "Stacy Peralta assembles the Bones Brigade for Powell-Peralta: Tony Hawk, Steve Caballero, Lance Mountain, Tommy Guerrero, Mike McGill, and Rodney Mullen. Skate history's most legendary team.",
+    "category": "culture",
+    "icon": "💀"
+  },
+  {
+    "year": 1984,
+    "era": "Street Revolution",
+    "title": "Rodney Mullen's Flatground Ollie",
+    "description": "Rodney Mullen adapts the ollie to flat ground, opening an infinite universe of street tricks. He goes on to invent the kickflip, heelflip, and dozens more.",
+    "category": "tricks",
+    "icon": "🔄"
+  },
+  {
+    "year": 1986,
+    "era": "Street Revolution",
+    "title": "Transworld Skateboarding Launches",
+    "description": "Transworld SKATEboarding magazine begins publishing, offering a more photography-driven alternative to Thrasher. Two magazines, two cultures.",
+    "category": "media",
+    "icon": "📸"
+  },
+  {
+    "year": 1987,
+    "era": "Street Revolution",
+    "title": "Powell-Peralta: The Search for Animal Chin",
+    "description": "The Bones Brigade's full-length skate video becomes a cultural phenomenon and establishes the skate video as an art form.",
+    "category": "media",
+    "icon": "🎬"
+  },
+  {
+    "year": 1991,
+    "era": "Street Revolution",
+    "title": "Street League Culture Takes Hold",
+    "description": "Street skating fully eclipses vert. Handrails, stairs, ledges, and gaps become the new terrain. Technical tricks rule.",
+    "category": "culture",
+    "icon": "🏙️"
+  },
+  {
+    "year": 1995,
+    "era": "Mainstream Boom",
+    "title": "First X Games",
+    "description": "ESPN launches the Extreme Games (later X Games) in Rhode Island. Skateboarding reaches mainstream TV audiences for the first time.",
+    "category": "competition",
+    "icon": "📺"
+  },
+  {
+    "year": 1999,
+    "era": "Mainstream Boom",
+    "title": "Tony Hawk Lands the 900",
+    "description": "At the 1999 X Games, Tony Hawk lands the first-ever 900 (2.5 aerial rotations) on live TV. It becomes one of the most iconic moments in sports history.",
+    "category": "tricks",
+    "icon": "🌀"
+  },
+  {
+    "year": 1999,
+    "era": "Mainstream Boom",
+    "title": "Tony Hawk's Pro Skater Released",
+    "description": "Activision releases THPS for PlayStation. The game introduces millions to skate culture, trick names, and punk/hip-hop soundtracks. A generation of skaters is born.",
+    "category": "media",
+    "icon": "🎮"
+  },
+  {
+    "year": 2002,
+    "era": "Mainstream Boom",
+    "title": "Girl/Chocolate & Fully Flared Era",
+    "description": "The early 2000s see skate video production values skyrocket. Girl, Chocolate, and Lakai push filmmaking boundaries.",
+    "category": "media",
+    "icon": "🎥"
+  },
+  {
+    "year": 2004,
+    "era": "Digital Age",
+    "title": "YouTube & the Democratization of Skate Media",
+    "description": "YouTube launches (2005) and skaters begin uploading clips directly. The gatekeepers of skate media — magazines, video distributors — start losing their monopoly.",
+    "category": "media",
+    "icon": "💻"
+  },
+  {
+    "year": 2010,
+    "era": "Digital Age",
+    "title": "Street League Skateboarding (SLS) Founded",
+    "description": "Rob Dyrdek founds SLS, bringing standardized judging and big prize purses to professional street skateboarding. The contest circuit goes pro.",
+    "category": "competition",
+    "icon": "🏅"
+  },
+  {
+    "year": 2012,
+    "era": "Digital Age",
+    "title": "Instagram Transforms Skate Culture",
+    "description": "Short-form video on Instagram changes how tricks are shared. The 15-second clip replaces the full-length video part for many pros.",
+    "category": "media",
+    "icon": "📱"
+  },
+  {
+    "year": 2016,
+    "era": "Olympic Era",
+    "title": "Skateboarding Added to Olympics",
+    "description": "The IOC announces skateboarding will debut at the 2020 Tokyo Olympics (held 2021). The decision is both celebrated and controversial within skate culture.",
+    "category": "competition",
+    "icon": "🏅"
+  },
+  {
+    "year": 2021,
+    "era": "Olympic Era",
+    "title": "Olympic Debut in Tokyo",
+    "description": "Skateboarding debuts at the Tokyo Olympics with Street and Park disciplines. Yuto Horigome wins the first-ever Olympic skateboarding gold. Teenagers dominate the women's events.",
+    "category": "competition",
+    "icon": "🥇"
+  },
+  {
+    "year": 2022,
+    "era": "Olympic Era",
+    "title": "Women's Skateboarding Boom",
+    "description": "Olympic exposure drives massive growth in women's skateboarding. More women and girls pick up boards than ever before. Brands create dedicated women's lines.",
+    "category": "culture",
+    "icon": "👩"
+  },
+  {
+    "year": 2024,
+    "era": "Olympic Era",
+    "title": "Paris 2024 Olympics",
+    "description": "Skateboarding returns to the Olympics in Paris. The La Concorde venue provides a stunning backdrop. Japan and Australia dominate the medal count.",
+    "category": "competition",
+    "icon": "🗼"
+  },
+  {
+    "year": 2025,
+    "era": "Future",
+    "title": "AI & Tech Enter Skating",
+    "description": "AI-powered trick recognition, community apps, and digital tools for skaters emerge. The intersection of tech and skate culture creates new possibilities.",
+    "category": "technology",
+    "icon": "🤖"
+  }
+]

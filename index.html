@@ -1,0 +1,253 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Skate Epochs — Interactive Skateboarding History Timeline</title>
+  <meta name="description" content="Explore 70+ years of skateboarding history — from sidewalk surfing to the Olympics — in an interactive visual timeline.">
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🛹</text></svg>">
+  <style>
+    :root {
+      --bg: #0a0a0f;
+      --surface: #14141f;
+      --border: #2a2a3a;
+      --text: #e0e0e8;
+      --muted: #8888aa;
+      --accent: #ff6b35;
+      --accent-glow: rgba(255, 107, 53, 0.3);
+      --origins: #f4a261;
+      --urethane: #e76f51;
+      --pool: #2a9d8f;
+      --street: #e9c46a;
+      --mainstream: #264653;
+      --digital: #7209b7;
+      --olympic: #06d6a0;
+      --future: #ff006e;
+    }
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+      line-height: 1.6;
+      overflow-x: hidden;
+    }
+    header {
+      text-align: center;
+      padding: 3rem 1.5rem 2rem;
+      background: linear-gradient(180deg, rgba(255,107,53,0.08) 0%, transparent 100%);
+    }
+    header h1 {
+      font-size: clamp(2rem, 6vw, 3.5rem);
+      font-weight: 900;
+      letter-spacing: -0.02em;
+      background: linear-gradient(135deg, var(--accent), #ff9a5c);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+    header p {
+      color: var(--muted);
+      font-size: 1.1rem;
+      margin-top: 0.5rem;
+      max-width: 500px;
+      margin-inline: auto;
+    }
+    .filters {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 0.5rem;
+      padding: 1rem 1.5rem 2rem;
+      max-width: 900px;
+      margin: 0 auto;
+    }
+    .filter-btn {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      color: var(--muted);
+      padding: 0.4rem 1rem;
+      border-radius: 2rem;
+      cursor: pointer;
+      font-size: 0.85rem;
+      transition: all 0.2s;
+    }
+    .filter-btn:hover, .filter-btn.active {
+      background: var(--accent);
+      color: #fff;
+      border-color: var(--accent);
+    }
+    .timeline-container {
+      max-width: 800px;
+      margin: 0 auto;
+      padding: 0 1.5rem 4rem;
+      position: relative;
+    }
+    .timeline-line {
+      position: absolute;
+      left: 50%;
+      top: 0;
+      bottom: 0;
+      width: 2px;
+      background: linear-gradient(180deg, var(--accent), var(--border));
+      transform: translateX(-50%);
+    }
+    @media (max-width: 640px) {
+      .timeline-line { left: 1.5rem; }
+    }
+    .era-label {
+      text-align: center;
+      padding: 2rem 0 1rem;
+      position: relative;
+      z-index: 2;
+    }
+    .era-label span {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      padding: 0.3rem 1.2rem;
+      border-radius: 2rem;
+      font-size: 0.8rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      color: var(--accent);
+    }
+    .event {
+      position: relative;
+      width: 45%;
+      padding: 1.2rem 1.5rem;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      margin-bottom: 2rem;
+      transition: all 0.3s ease;
+      cursor: default;
+      animation: fadeUp 0.5s ease forwards;
+      opacity: 0;
+    }
+    .event:hover {
+      border-color: var(--accent);
+      box-shadow: 0 0 20px var(--accent-glow);
+      transform: translateY(-2px);
+    }
+    .event.left { margin-left: 0; margin-right: auto; }
+    .event.right { margin-left: auto; margin-right: 0; }
+    .event .dot {
+      position: absolute;
+      top: 1.5rem;
+      width: 14px;
+      height: 14px;
+      background: var(--accent);
+      border-radius: 50%;
+      border: 3px solid var(--bg);
+      z-index: 3;
+    }
+    .event.left .dot { right: -7px; transform: translateX(50%); right: calc(-5% - 28px); }
+    .event.right .dot { left: -7px; transform: translateX(-50%); left: calc(-5% - 28px); }
+    @media (max-width: 640px) {
+      .event { width: calc(100% - 3rem); margin-left: 3rem !important; margin-right: 0 !important; }
+      .event .dot { left: -2.3rem !important; right: auto !important; transform: none !important; }
+      .era-label { text-align: left; padding-left: 3.5rem; }
+    }
+    .event .year-badge {
+      font-size: 0.75rem;
+      font-weight: 700;
+      color: var(--accent);
+      margin-bottom: 0.3rem;
+    }
+    .event .icon { font-size: 1.5rem; float: right; margin: -0.2rem 0 0.5rem 0.5rem; }
+    .event h3 { font-size: 1rem; font-weight: 700; margin-bottom: 0.4rem; }
+    .event p { font-size: 0.88rem; color: var(--muted); line-height: 1.5; }
+    .event .tag {
+      display: inline-block;
+      margin-top: 0.5rem;
+      font-size: 0.7rem;
+      padding: 0.15rem 0.6rem;
+      border-radius: 1rem;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+    }
+    .tag-culture { background: rgba(244,162,97,0.15); color: #f4a261; }
+    .tag-industry { background: rgba(231,111,81,0.15); color: #e76f51; }
+    .tag-competition { background: rgba(6,214,160,0.15); color: #06d6a0; }
+    .tag-technology { background: rgba(114,9,183,0.15); color: #b57edc; }
+    .tag-tricks { background: rgba(233,196,106,0.15); color: #e9c46a; }
+    .tag-media { background: rgba(255,0,110,0.15); color: #ff006e; }
+    .tag-infrastructure { background: rgba(42,157,143,0.15); color: #2a9d8f; }
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(20px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    footer {
+      text-align: center;
+      padding: 2rem;
+      color: var(--muted);
+      font-size: 0.8rem;
+      border-top: 1px solid var(--border);
+    }
+    footer a { color: var(--accent); text-decoration: none; }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>🛹 Skate Epochs</h1>
+    <p>70+ years of skateboarding history — from sidewalk surfing to the Olympics</p>
+  </header>
+  <div class="filters" id="filters"></div>
+  <div class="timeline-container">
+    <div class="timeline-line"></div>
+    <div id="timeline"></div>
+  </div>
+  <footer>
+    <p>Skate Epochs — Built by <a href="https://clawdiard.github.io/clawdia-homepage/">Clawdia</a> 🦞</p>
+  </footer>
+  <script>
+    const categories = ['all','culture','tricks','competition','media','technology','industry','infrastructure'];
+    const filtersEl = document.getElementById('filters');
+    const timelineEl = document.getElementById('timeline');
+    let data = [];
+    let activeFilter = 'all';
+
+    categories.forEach(c => {
+      const btn = document.createElement('button');
+      btn.className = 'filter-btn' + (c === 'all' ? ' active' : '');
+      btn.textContent = c.charAt(0).toUpperCase() + c.slice(1);
+      btn.onclick = () => {
+        activeFilter = c;
+        document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+        btn.classList.add('active');
+        render();
+      };
+      filtersEl.appendChild(btn);
+    });
+
+    fetch('data/timeline.json')
+      .then(r => r.json())
+      .then(d => { data = d; render(); });
+
+    function render() {
+      const filtered = activeFilter === 'all' ? data : data.filter(e => e.category === activeFilter);
+      let html = '';
+      let lastEra = '';
+      filtered.forEach((e, i) => {
+        if (e.era !== lastEra) {
+          lastEra = e.era;
+          html += `<div class="era-label"><span>${e.era}</span></div>`;
+        }
+        const side = i % 2 === 0 ? 'left' : 'right';
+        html += `
+          <div class="event ${side}" style="animation-delay: ${i * 0.05}s">
+            <div class="dot"></div>
+            <div class="icon">${e.icon}</div>
+            <div class="year-badge">${e.year}</div>
+            <h3>${e.title}</h3>
+            <p>${e.description}</p>
+            <span class="tag tag-${e.category}">${e.category}</span>
+          </div>`;
+      });
+      timelineEl.innerHTML = html;
+    }
+  </script>
+</body>
+</html>
