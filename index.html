@@ -5,6 +5,12 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Skate Epochs — Interactive Skateboarding History Timeline</title>
   <meta name="description" content="Explore 70+ years of skateboarding history — from sidewalk surfing to the Olympics — in an interactive visual timeline.">
+  <meta property="og:title" content="Skate Epochs — Interactive Skateboarding History Timeline">
+  <meta property="og:description" content="70+ years of skateboarding history in an interactive visual timeline.">
+  <meta property="og:type" content="website">
+  <meta name="twitter:card" content="summary">
+  <meta name="twitter:title" content="Skate Epochs">
+  <meta name="twitter:description" content="70+ years of skateboarding history — from sidewalk surfing to the Olympics.">
   <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🛹</text></svg>">
   <style>
     :root {
@@ -344,6 +350,44 @@
     }
     .skater-tricks li::before { content: '🛹 '; }
     .skater-accolades li::before { content: '🏆 '; }
+    /* Share buttons */
+    .share-bar {
+      display: flex;
+      gap: 0.4rem;
+      margin-top: 0.6rem;
+      flex-wrap: wrap;
+    }
+    .share-btn {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      color: var(--muted);
+      padding: 0.25rem 0.6rem;
+      border-radius: 1rem;
+      cursor: pointer;
+      font-size: 0.72rem;
+      font-weight: 600;
+      transition: all 0.2s;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.3rem;
+      text-decoration: none;
+    }
+    .share-btn:hover {
+      border-color: var(--accent);
+      color: var(--accent);
+    }
+    .share-btn.copied {
+      border-color: #06d6a0;
+      color: #06d6a0;
+    }
+    /* Deep-link highlight */
+    .event.highlight {
+      animation: highlightPulse 2s ease-out;
+    }
+    @keyframes highlightPulse {
+      0% { box-shadow: 0 0 0 4px var(--accent-glow); }
+      100% { box-shadow: none; }
+    }
   </style>
 </head>
 <body>
@@ -527,6 +571,30 @@
       document.querySelectorAll('[id^="decade-"]').forEach(el => observer.observe(el));
     }
 
+    function slugify(text) {
+      return text.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/(^-|-$)/g, '');
+    }
+
+    function getEventUrl(e) {
+      const slug = slugify(e.year + '-' + e.title);
+      return location.origin + location.pathname + '#' + slug;
+    }
+
+    function copyEventLink(e, btn) {
+      const url = getEventUrl(e);
+      navigator.clipboard.writeText(url).then(() => {
+        btn.classList.add('copied');
+        btn.innerHTML = '✓ Copied';
+        setTimeout(() => { btn.classList.remove('copied'); btn.innerHTML = '🔗 Link'; }, 1500);
+      });
+    }
+
+    function shareTwitter(e) {
+      const url = getEventUrl(e);
+      const text = `${e.icon} ${e.title} (${e.year}) — Skate Epochs`;
+      window.open(`https://twitter.com/intent/tweet?text=${encodeURIComponent(text)}&url=${encodeURIComponent(url)}`, '_blank');
+    }
+
     function render() {
       let filtered = activeFilter === 'all' ? data : data.filter(e => e.category === activeFilter);
       if (searchQuery) {
@@ -548,22 +616,45 @@
         }
         if (e.era !== lastEra) {
           lastEra = e.era;
-          const slug = 'era-' + e.era.toLowerCase().replace(/[^a-z0-9]+/g, '-');
-          html += `<div class="era-label" id="${slug}" style="scroll-margin-top:4rem"><span>${e.era}</span></div>`;
+          const eraSlug = 'era-' + e.era.toLowerCase().replace(/[^a-z0-9]+/g, '-');
+          html += `<div class="era-label" id="${eraSlug}" style="scroll-margin-top:4rem"><span>${e.era}</span></div>`;
         }
         const side = i % 2 === 0 ? 'left' : 'right';
+        const eventSlug = slugify(e.year + '-' + e.title);
+        const eventJson = JSON.stringify(e).replace(/'/g, '&#39;').replace(/"/g, '&quot;');
         html += `
-          <div class="event ${side}" style="animation-delay: ${i * 0.05}s">
+          <div class="event ${side}" id="${eventSlug}" style="animation-delay: ${i * 0.05}s; scroll-margin-top: 5rem;">
             <div class="dot"></div>
             <div class="icon">${e.icon}</div>
             <div class="year-badge">${e.year}</div>
             <h3>${e.title}</h3>
             <p>${linkSkaterNames(e.description)}</p>
             <span class="tag tag-${e.category}">${e.category}</span>
+            <div class="share-bar">
+              <button class="share-btn" onclick='copyEventLink(${eventJson}, this)'>🔗 Link</button>
+              <button class="share-btn" onclick='shareTwitter(${eventJson})'>𝕏 Share</button>
+            </div>
           </div>`;
       });
       timelineEl.innerHTML = html;
+      // Deep-link: scroll to hash target
+      handleDeepLink();
     }
+
+    function handleDeepLink() {
+      const hash = location.hash.slice(1);
+      if (!hash) return;
+      const target = document.getElementById(hash);
+      if (target && target.classList.contains('event')) {
+        setTimeout(() => {
+          target.scrollIntoView({ behavior: 'smooth', block: 'center' });
+          target.classList.add('highlight');
+        }, 300);
+      }
+    }
+
+    // Also handle hash changes (e.g. user navigates via shared link while page is open)
+    window.addEventListener('hashchange', handleDeepLink);
   </script>
 </body>
 </html>
