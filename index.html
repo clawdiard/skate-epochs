@@ -226,6 +226,13 @@
     <h1>🛹 Skate Epochs</h1>
     <p>70+ years of skateboarding history — from sidewalk surfing to the Olympics</p>
   </header>
+  <div style="text-align:center;padding:0 1.5rem 0.5rem;max-width:500px;margin:0 auto;">
+    <input type="text" id="searchInput" placeholder="Search events… (e.g. &quot;ollie&quot;, &quot;Olympics&quot;, &quot;Tony Hawk&quot;)" style="
+      width:100%;padding:0.6rem 1.2rem;border-radius:2rem;border:1px solid var(--border);
+      background:var(--surface);color:var(--text);font-size:0.95rem;outline:none;
+      transition:border-color 0.2s;
+    " onfocus="this.style.borderColor='var(--accent)'" onblur="this.style.borderColor='var(--border)'">
+  </div>
   <div class="filters" id="filters"></div>
   <div class="timeline-container">
     <div class="timeline-line"></div>
@@ -240,6 +247,13 @@
     const timelineEl = document.getElementById('timeline');
     let data = [];
     let activeFilter = 'all';
+    let searchQuery = '';
+
+    const searchInput = document.getElementById('searchInput');
+    searchInput.addEventListener('input', e => {
+      searchQuery = e.target.value.toLowerCase().trim();
+      render();
+    });
 
     categories.forEach(c => {
       const btn = document.createElement('button');
@@ -309,7 +323,15 @@
     }
 
     function render() {
-      const filtered = activeFilter === 'all' ? data : data.filter(e => e.category === activeFilter);
+      let filtered = activeFilter === 'all' ? data : data.filter(e => e.category === activeFilter);
+      if (searchQuery) {
+        filtered = filtered.filter(e =>
+          e.title.toLowerCase().includes(searchQuery) ||
+          e.description.toLowerCase().includes(searchQuery) ||
+          e.era.toLowerCase().includes(searchQuery) ||
+          String(e.year).includes(searchQuery)
+        );
+      }
       let html = '';
       let lastEra = '';
       let lastDecade = -1;
