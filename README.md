@@ -10,7 +10,7 @@ Explore 70+ years of skateboarding history — from 1950s sidewalk surfing throu
 
 ## Features
 
-- 📅 **27 milestone events** spanning 1950–2025
+- 📅 **50 milestone events** spanning 1950–2025
 - 🎨 **Dark theme** with smooth animations and glow effects
 - 🔍 **Category filters** — Culture, Tricks, Competition, Media, Technology, Industry, Infrastructure
 - 📱 **Fully responsive** — works on desktop and mobile
