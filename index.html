@@ -187,9 +187,41 @@
       border-top: 1px solid var(--border);
     }
     footer a { color: var(--accent); text-decoration: none; }
+    .decade-nav {
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      background: rgba(10, 10, 15, 0.92);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      border-bottom: 1px solid var(--border);
+      padding: 0.6rem 1rem;
+      display: flex;
+      justify-content: center;
+      gap: 0.4rem;
+      flex-wrap: wrap;
+    }
+    .decade-btn {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      color: var(--muted);
+      padding: 0.35rem 0.9rem;
+      border-radius: 2rem;
+      cursor: pointer;
+      font-size: 0.8rem;
+      font-weight: 600;
+      transition: all 0.2s;
+      white-space: nowrap;
+    }
+    .decade-btn:hover, .decade-btn.active {
+      background: var(--accent);
+      color: #fff;
+      border-color: var(--accent);
+    }
   </style>
 </head>
 <body>
+  <nav class="decade-nav" id="decadeNav"></nav>
   <header>
     <h1>🛹 Skate Epochs</h1>
     <p>70+ years of skateboarding history — from sidewalk surfing to the Olympics</p>
@@ -222,18 +254,75 @@
       filtersEl.appendChild(btn);
     });
 
+    const decadeNavEl = document.getElementById('decadeNav');
+
     fetch('data/timeline.json')
       .then(r => r.json())
-      .then(d => { data = d; render(); });
+      .then(d => { data = d; render(); buildDecadeNav(); });
+
+    function buildDecadeNav() {
+      const decades = [...new Set(data.map(e => Math.floor(e.year / 10) * 10))].sort((a, b) => a - b);
+      decadeNavEl.innerHTML = '';
+      decades.forEach(dec => {
+        const btn = document.createElement('button');
+        btn.className = 'decade-btn';
+        btn.textContent = dec + 's';
+        btn.onclick = () => {
+          const target = document.getElementById('decade-' + dec);
+          if (target) target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        };
+        decadeNavEl.appendChild(btn);
+      });
+      // Also add era jump buttons
+      const eras = [];
+      data.forEach(e => { if (!eras.includes(e.era)) eras.push(e.era); });
+      if (eras.length) {
+        const sep = document.createElement('span');
+        sep.style.cssText = 'width:1px;height:1.2rem;background:var(--border);align-self:center;margin:0 0.3rem';
+        decadeNavEl.appendChild(sep);
+      }
+      eras.forEach(era => {
+        const btn = document.createElement('button');
+        btn.className = 'decade-btn';
+        btn.style.borderColor = 'var(--accent)';
+        btn.style.color = 'var(--accent)';
+        btn.textContent = era;
+        btn.onclick = () => {
+          const slug = 'era-' + era.toLowerCase().replace(/[^a-z0-9]+/g, '-');
+          const target = document.getElementById(slug);
+          if (target) target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        };
+        decadeNavEl.appendChild(btn);
+      });
+      // Highlight active decade on scroll
+      const observer = new IntersectionObserver(entries => {
+        entries.forEach(entry => {
+          if (entry.isIntersecting && entry.target.id.startsWith('decade-')) {
+            const dec = entry.target.id.replace('decade-', '');
+            decadeNavEl.querySelectorAll('.decade-btn').forEach(b => {
+              b.classList.toggle('active', b.textContent === dec + 's');
+            });
+          }
+        });
+      }, { rootMargin: '-40% 0px -50% 0px' });
+      document.querySelectorAll('[id^="decade-"]').forEach(el => observer.observe(el));
+    }
 
     function render() {
       const filtered = activeFilter === 'all' ? data : data.filter(e => e.category === activeFilter);
       let html = '';
       let lastEra = '';
+      let lastDecade = -1;
       filtered.forEach((e, i) => {
+        const decade = Math.floor(e.year / 10) * 10;
+        if (decade !== lastDecade) {
+          lastDecade = decade;
+          html += `<div id="decade-${decade}" style="scroll-margin-top:4rem"></div>`;
+        }
         if (e.era !== lastEra) {
           lastEra = e.era;
-          html += `<div class="era-label"><span>${e.era}</span></div>`;
+          const slug = 'era-' + e.era.toLowerCase().replace(/[^a-z0-9]+/g, '-');
+          html += `<div class="era-label" id="${slug}" style="scroll-margin-top:4rem"><span>${e.era}</span></div>`;
         }
         const side = i % 2 === 0 ? 'left' : 'right';
         html += `
